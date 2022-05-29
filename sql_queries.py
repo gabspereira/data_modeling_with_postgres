@@ -63,7 +63,8 @@ ON CONFLICT (songplay_id) DO NOTHING;
 
 user_table_insert = ("""
 INSERT INTO users (user_id, first_name, last_name, gender, level) VALUES (%s,%s,%s,%s,%s)
-ON CONFLICT (user_id) DO NOTHING;
+ON CONFLICT (user_id) DO UPDATE SET
+level = EXCLUDED.level;
 """)
 
 song_table_insert = ("""
@@ -73,7 +74,10 @@ ON CONFLICT (song_id) DO NOTHING;
 
 artist_table_insert = ("""
 INSERT INTO artists (artist_id, name, location, latitude, longitude) VALUES (%s,%s,%s,%s,%s)
-ON CONFLICT (artist_id) DO NOTHING;
+ON CONFLICT (artist_id) DO UPDATE SET
+location = EXCLUDED.location,
+latitude = EXCLUDED.latitude,
+longitude = EXCLUDED.longitude;
 """)
 
 
